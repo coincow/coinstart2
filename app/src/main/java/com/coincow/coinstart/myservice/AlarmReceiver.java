@@ -13,38 +13,11 @@ import java.util.Locale;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    static TextToSpeech textToSpeech = null;
-    static int count = 0;
-
-
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        //启动下一次任务
-        FetchRealTimeDataService.addTask(context);
-
-        try{
-            if (null == textToSpeech){
-                textToSpeech = new TextToSpeech(context.getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        textToSpeech.setLanguage(Locale.ENGLISH);
-                    }
-                });
-            }else{
-                count++;
-                textToSpeech.speak(""+count, TextToSpeech.QUEUE_FLUSH, null);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         //check service
-        Intent intent2 = new Intent(context, FetchRealTimeDataService.class);
-        intent.setAction("blabla");
-        context.startService(intent2);
+        AlarmService.checService(context);
+        PersistService.checkService(context);
     }
-
-
 
 }
