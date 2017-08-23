@@ -19,15 +19,19 @@ public class PersistService extends JobService {
     static int count = 0;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+        super.onCreate();
         scheduleJob();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
         scheduleJob();
-        doJob();
         return true;
     }
 
@@ -41,13 +45,15 @@ public class PersistService extends JobService {
         try {
             int id = 1;
             JobInfo.Builder builder = new JobInfo.Builder(id, new ComponentName(getPackageName(), PersistService.class.getName() ));
-            builder.setPeriodic(15000);  //60s执行一次
+            builder.setPeriodic(10*1000);
             JobScheduler jobScheduler = (JobScheduler)this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
             jobScheduler.cancel(id);
             int ret = jobScheduler.schedule(builder.build());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        doJob();
     }
 
     private void doJob(){

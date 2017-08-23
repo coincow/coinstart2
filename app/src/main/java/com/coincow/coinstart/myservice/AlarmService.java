@@ -24,6 +24,7 @@ public class AlarmService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        setSelfForegroud();
         addTask(this);
     }
 
@@ -34,7 +35,6 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        setSelfForegroud();
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
     }
@@ -47,8 +47,7 @@ public class AlarmService extends Service {
 
     static public void addTask(Context context){
 
-        long triggerAtTime = SystemClock.elapsedRealtime() + 1000;//1s之后触发
-        long interval = 1000;//每秒取一次数据
+        long triggerAtTime = SystemClock.elapsedRealtime() + 4*60*1000;
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
