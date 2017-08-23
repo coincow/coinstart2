@@ -3,9 +3,6 @@ package com.coincow.coinstart.myservice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.speech.tts.TextToSpeech;
-
-import java.util.Locale;
 
 /**
  * Created by zhouyangzzu on 2017/8/19.
