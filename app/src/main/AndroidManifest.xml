@@ -8,7 +8,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MyApplication">
@@ -20,7 +19,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".myservice.FetchRealTimeDataService"></service>
+        <service android:name=".myservice.AlarmService"></service>
+        <service android:name=".myservice.PersistService"
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
         <receiver android:name=".myservice.AlarmReceiver"></receiver>
     </application>
 

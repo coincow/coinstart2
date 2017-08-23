@@ -1,9 +1,10 @@
 package com.coincow.coinstart;
 
 import android.app.Application;
-import android.content.Intent;
+import android.content.Context;
 
-import com.coincow.coinstart.myservice.FetchRealTimeDataService;
+import com.coincow.coinstart.myservice.AlarmService;
+import com.coincow.coinstart.myservice.PersistService;
 
 
 /**
@@ -12,15 +13,21 @@ import com.coincow.coinstart.myservice.FetchRealTimeDataService;
 
 public class MyApplication extends Application {
 
+    static Context mContext = null;
+
     @Override
     public void onCreate() {
+        mContext = this;
         super.onCreate();
         initApp();
     }
 
     private void initApp(){
-        Intent intent = new Intent(this, FetchRealTimeDataService.class);
-        intent.setAction("blabla");
-        startService(intent);
+        AlarmService.checService(this);
+        PersistService.checkService(this);
+    }
+
+    public static Context getContext(){
+        return mContext;
     }
 }

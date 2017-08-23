@@ -6,6 +6,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -18,14 +20,14 @@ import com.coincow.coinstart.R;
  * Created by zhouyangzzu on 2017/8/19.
  */
 
-public class FetchRealTimeDataService extends IntentService {
+public class AlarmService extends IntentService {
 
-    public FetchRealTimeDataService() {
-        super("FetchRealTimeDataService");
+    public AlarmService() {
+        super("AlarmService");
     }
 
-    public FetchRealTimeDataService(String name) {
-        super("FetchRealTimeDataService");
+    public AlarmService(String name) {
+        super("AlarmService");
     }
 
     @Override
@@ -45,6 +47,11 @@ public class FetchRealTimeDataService extends IntentService {
         setSelfForegroud();
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -72,19 +79,42 @@ public class FetchRealTimeDataService extends IntentService {
 
     private void setSelfForegroud(){
 
+        Bitmap largeIcon = ((BitmapDrawable) getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
-        Notification.Builder notifyBuilder = new Notification.Builder(FetchRealTimeDataService.this)
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification.Builder notifyBuilder = new Notification.Builder(AlarmService.this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(largeIcon)
                 .setTicker("正在帮你监视币价波动。。。")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("正在帮你监视币价波动。。。")
+                .setSubText("牛币")
+                .setAutoCancel(false)
+                .setShowWhen(true)
                 .setContentIntent(pendingIntent);
 
 
         Notification notification = notifyBuilder.build();
+        notification.flags = Notification.FLAG_FOREGROUND_SERVICE;
+        notification.defaults = Notification.DEFAULT_ALL;
+
+//        Notification notification1 = new Notification.Builder(this)
+//                .setSmallIcon(R.mipmap.ic_launcher)
+//                .setLargeIcon(largeIcon)
+//                .setContentTitle("牛币")
+//                .setSubText("ooooo")
+//                .setTicker("正在帮你监视币价波动。。。")
+//                .setContentTitle("正在帮你监视币价波动。。。")
+//                .setContentIntent(pendingIntent)
+//                .getNotification();
         startForeground(1111, notification);
     }
 
+    static public void checService(Context context){
+        Intent intent = new Intent(context, AlarmService.class);
+        intent.setAction("blabla");
+        context.startService(intent);
+    }
 
 }
