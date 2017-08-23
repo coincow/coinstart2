@@ -2,11 +2,8 @@ package com.coincow.coinstart.myservice;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
-
 import com.coincow.coinstart.MyApplication;
-
 import java.util.Locale;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * Created by zhouyangzzu on 2017/8/22.
@@ -49,7 +46,7 @@ public class FetchDataThread {
             for(;;){
                 doWork();
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                 }catch (Exception e) {
                 }
             }

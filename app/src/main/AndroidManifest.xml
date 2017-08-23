@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.coincow.coinstart">
 
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -19,9 +19,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".myservice.AlarmService"></service>
-        <service android:name=".myservice.PersistService"
-            android:permission="android.permission.BIND_JOB_SERVICE"></service>
+        <service android:name=".myservice.AlarmService">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
+        <service android:name=".myservice.PersistService" android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
         <receiver android:name=".myservice.AlarmReceiver"></receiver>
     </application>
 

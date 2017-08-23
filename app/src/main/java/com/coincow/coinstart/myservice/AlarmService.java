@@ -1,16 +1,15 @@
 package com.coincow.coinstart.myservice;
 
 import android.app.AlarmManager;
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 
 import com.coincow.coinstart.MainActivity;
 import com.coincow.coinstart.R;
@@ -20,15 +19,7 @@ import com.coincow.coinstart.R;
  * Created by zhouyangzzu on 2017/8/19.
  */
 
-public class AlarmService extends IntentService {
-
-    public AlarmService() {
-        super("AlarmService");
-    }
-
-    public AlarmService(String name) {
-        super("AlarmService");
-    }
+public class AlarmService extends Service {
 
     @Override
     public void onCreate() {
@@ -36,14 +27,13 @@ public class AlarmService extends IntentService {
         addTask(this);
     }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         setSelfForegroud();
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
@@ -54,10 +44,6 @@ public class AlarmService extends IntentService {
         super.onDestroy();
     }
 
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
-    }
 
     static public void addTask(Context context){
 
