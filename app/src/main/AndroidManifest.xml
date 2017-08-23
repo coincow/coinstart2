@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".myservice.AlarmService">
+        <!--service android:name=".myservice.AlarmService">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -30,7 +30,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </service>
-        <receiver android:name=".myservice.AlarmReceiver"></receiver>
+        <receiver android:name=".myservice.AlarmReceiver"></receiver-->
     </application>
 
 </manifest>

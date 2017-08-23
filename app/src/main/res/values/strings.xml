@@ -7,5 +7,5 @@
     <string name="coin_name">名称</string>
     <string name="coin_price">最新</string>
     <string name="coin_increase">涨幅</string>
-
+    <string name="price_raise">放量拉升，请关注！</string>
 </resources>

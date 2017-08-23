@@ -1,11 +1,13 @@
 package com.coincow.coinstart;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private CoinAdapter mCoinAdapter;
     private List<Coin> mCoinDatas;
 
+    private PriceMonitor mPriceMonitor = new PriceMonitor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 refreshCoins();
             }
-        }, 0, 2000); //每2秒请求一次数据
+        }, 0, 1000); //必须每1秒请求一次数据，否则PriceMonitor工作不准确
     }
 
     private void initDatas()
@@ -155,7 +159,13 @@ public class MainActivity extends AppCompatActivity {
 
                 coinMap.put(id, coin);
                 //存储30秒价格数据，用于判断拉升
-
+                if(mPriceMonitor.countCoinInfo(id, coin))
+                {
+                    //notify
+                    String text = coin.name;
+                    text += getResources().getString(R.string.price_raise);
+                    sendNotifation(123, coin.name, text);
+                }
             }
 
         } catch (JSONException e) {
@@ -213,5 +223,18 @@ public class MainActivity extends AppCompatActivity {
             mCoinDatas.add(coin);
         }
         mCoinAdapter.notifyDataSetChanged();
+    }
+
+    public void sendNotifation(int id, String title, String text){
+        NotificationCompat.Builder nBuilder =
+                new NotificationCompat.Builder(this);
+        nBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        nBuilder.setContentTitle(title);
+        nBuilder.setContentText(text);
+        nBuilder.setVibrate(new long[]{100, 100, 100});
+        nBuilder.setLights(Color.RED, 1000, 1000);
+
+        NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notifyMgr.notify(id, nBuilder.build());
     }
 }
