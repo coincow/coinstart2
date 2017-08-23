@@ -12,6 +12,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        AlarmService.addTask(context);
+
         //check service
         AlarmService.checService(context);
         PersistService.checkService(context);

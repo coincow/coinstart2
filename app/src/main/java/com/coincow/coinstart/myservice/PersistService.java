@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by zhouyangzzu on 2017/8/22.
  */
@@ -19,15 +21,19 @@ public class PersistService extends JobService {
     static int count = 0;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+        super.onCreate();
         scheduleJob();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
         scheduleJob();
-        doJob();
         return true;
     }
 
@@ -39,15 +45,19 @@ public class PersistService extends JobService {
     private void scheduleJob() {
 
         try {
-            int id = 1;
-            JobInfo.Builder builder = new JobInfo.Builder(id, new ComponentName(getPackageName(), PersistService.class.getName() ));
-            builder.setPeriodic(15000);  //60s执行一次
-            JobScheduler jobScheduler = (JobScheduler)this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-            jobScheduler.cancel(id);
-            int ret = jobScheduler.schedule(builder.build());
+            JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(this, PersistService.class));  //指定哪个JobService执行操作
+            builder.setMinimumLatency(TimeUnit.MILLISECONDS.toMillis(2*60*1000)); //执行的最小延迟时间
+            builder.setOverrideDeadline(TimeUnit.MILLISECONDS.toMillis(10*60*1000));  //执行的最长延时时间
+            builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING);  //非漫游网络状态
+            builder.setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR);  //线性重试方案
+            builder.setRequiresCharging(false); // 未充电状态
+            jobScheduler.schedule(builder.build());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        doJob();
     }
 
     private void doJob(){
