@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CoinStart</string>
+    <string name="coin_market">牛币</string>
+    <string name="coin_add">添加</string>
+    <string name="coin_pending">待开发</string>
+
+    <string name="coin_name">名称</string>
+    <string name="coin_price">最新</string>
+    <string name="coin_increase">涨幅</string>
+
 </resources>
