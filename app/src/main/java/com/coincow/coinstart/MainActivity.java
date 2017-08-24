@@ -212,7 +212,51 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void refreshCoins(){ queryYunbiCoins(); }
+    public void queryYunbiMarkets()
+    {
+        String url = "https://yunbi.com/";
+        String shortApi = "/api/v2/trades.json";
+        String param = "market=gxbcny";
+
+        String sigUrl = YunbiApiHelper.getSignatureUrl(url, shortApi, param);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(sigUrl)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call,  Response response) throws IOException {
+                if (null != response.cacheResponse()) {
+
+                } else {
+
+                    final String str = response.body().string();//response.networkResponse().toString();
+                    Log.i(LOGTAG, "trades---" + str);
+
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //updateStockListView(yunbiResponseToCoins(str));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    private void refreshCoins()
+    {
+        queryYunbiCoins();
+        //queryYunbiMarkets();
+    }
 
     public void updateStockListView(TreeMap<String, Coin> coinMap)
     {
