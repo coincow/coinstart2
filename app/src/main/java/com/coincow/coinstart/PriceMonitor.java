@@ -96,7 +96,7 @@ public class PriceMonitor {
 
         double priceRate = priceDistance / pre.lastOneMin;
         priceRate *= 100;
-        if(priceRate > 1.0)
+        if(priceRate > 0.5)
             return true;
 
         return false;
@@ -133,7 +133,7 @@ public class PriceMonitor {
 
         double priceRate = priceDistance / prePrice;
         priceRate *= 100;
-        if(priceRate > 0.5)
+        if(priceRate > 1.0)
             return true;
 
         return false;

@@ -40,8 +40,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private final static String LOGTAG = "log";
-    private final static String CoinIdsKey = "CoinIds";
-    private final static String InterestCoinIds = "btccny,bcccny,ethcny,eoscny,omgcny,anscny";
+    private final static String CoinIdsKey = "CoinIds1";
+    private final static String InterestCoinIds = "gxscny,btccny,bcccny,ethcny,eoscny,omgcny,anscny";
     private static HashSet<String> mCoinIdsSet = new HashSet<>();
 
     private RecyclerView mRecyclerView;

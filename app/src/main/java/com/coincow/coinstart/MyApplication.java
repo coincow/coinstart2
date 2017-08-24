@@ -19,7 +19,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         mContext = this;
         super.onCreate();
-        initApp();
+        //initApp();
     }
 
     private void initApp(){
