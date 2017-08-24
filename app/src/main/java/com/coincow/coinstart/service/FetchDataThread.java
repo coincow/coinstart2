@@ -1,4 +1,4 @@
-package com.coincow.coinstart.myservice;
+package com.coincow.coinstart.service;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
@@ -44,7 +44,7 @@ public class FetchDataThread {
         public void run() {
 
             for(;;){
-                doWork();
+                //doWork();
                 try {
                     Thread.sleep(5000);
                 }catch (Exception e) {

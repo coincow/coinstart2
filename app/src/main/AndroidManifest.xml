@@ -20,17 +20,17 @@
             </intent-filter>
         </activity>
 
-        <!--service android:name=".myservice.AlarmService">
+        <service android:name=".service.AlarmService">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </service>
-        <service android:name=".myservice.PersistService" android:permission="android.permission.BIND_JOB_SERVICE">
+        <service android:name=".service.PersistService" android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </service>
-        <receiver android:name=".myservice.AlarmReceiver"></receiver-->
+        <receiver android:name=".service.AlarmReceiver"></receiver>
     </application>
 
 </manifest>

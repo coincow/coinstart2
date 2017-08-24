@@ -1,4 +1,4 @@
-package com.coincow.coinstart.myservice;
+package com.coincow.coinstart.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;

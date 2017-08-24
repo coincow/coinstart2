@@ -1,5 +1,6 @@
 package com.coincow.coinstart;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -277,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
         nBuilder.setContentText(text);
         nBuilder.setVibrate(new long[]{100, 100, 100});
         nBuilder.setLights(Color.RED, 1000, 1000);
+        nBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
         NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notifyMgr.notify(id, nBuilder.build());
