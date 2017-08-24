@@ -1,4 +1,4 @@
-package com.coincow.coinstart.myservice;
+package com.coincow.coinstart.service;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;

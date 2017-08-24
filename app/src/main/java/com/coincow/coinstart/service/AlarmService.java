@@ -1,4 +1,4 @@
-package com.coincow.coinstart.myservice;
+package com.coincow.coinstart.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -14,12 +14,18 @@ import android.os.SystemClock;
 import com.coincow.coinstart.MainActivity;
 import com.coincow.coinstart.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * Created by zhouyangzzu on 2017/8/19.
  */
 
 public class AlarmService extends Service {
+
+    private final long mTimeStart = System.currentTimeMillis();
 
     @Override
     public void onCreate() {
@@ -36,6 +42,7 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        setSelfForegroud();
         return START_STICKY;
     }
 
@@ -64,6 +71,8 @@ public class AlarmService extends Service {
 
     private void setSelfForegroud(){
 
+        String timeExtra = calculateTime(mTimeStart);
+
         Bitmap largeIcon = ((BitmapDrawable) getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -73,7 +82,7 @@ public class AlarmService extends Service {
                 .setTicker("正在帮你监视币价波动。。。")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText("正在帮你监视币价波动。。。")
+                .setContentText("正在监视币价波动。。。"+timeExtra)
                 .setSubText("牛币")
                 .setAutoCancel(false)
                 .setShowWhen(true)
@@ -82,7 +91,7 @@ public class AlarmService extends Service {
 
         Notification notification = notifyBuilder.build();
         notification.flags = Notification.FLAG_FOREGROUND_SERVICE;
-        notification.defaults = Notification.DEFAULT_ALL;
+        notification.defaults = 0;
 
 //        Notification notification1 = new Notification.Builder(this)
 //                .setSmallIcon(R.mipmap.ic_launcher)
@@ -100,6 +109,54 @@ public class AlarmService extends Service {
         Intent intent = new Intent(context, AlarmService.class);
         intent.setAction("blabla");
         context.startService(intent);
+    }
+
+
+    /**
+     * 由过去的某一时间,计算距离当前的时间
+     * */
+    public String calculateTime(long time){
+        long nowTime=System.currentTimeMillis();  //获取当前时间的毫秒数
+        String msg = "刚启动";
+
+        Date setTime = new Date(time);  //指定时间
+
+        long reset=setTime.getTime();   //获取指定时间的毫秒数
+        long dateDiff=nowTime-reset;
+
+        if(dateDiff<0){
+            msg="输入的时间不对";
+        }else{
+
+            long dateTemp1=dateDiff/1000; //秒
+            long dateTemp2=dateTemp1/60; //分钟
+            long dateTemp3=dateTemp2/60; //小时
+            long dateTemp4=dateTemp3/24; //天数
+            long dateTemp5=dateTemp4/30; //月数
+            long dateTemp6=dateTemp5/12; //年数
+
+            if(dateTemp6>0){
+                msg = dateTemp6+"年前";
+
+            }else if(dateTemp5>0){
+                msg = dateTemp5+"个月前";
+
+            }else if(dateTemp4>0){
+                msg = dateTemp4+"天前";
+
+            }else if(dateTemp3>0){
+                msg = dateTemp3+"小时前";
+
+            }else if(dateTemp2>0){
+                msg = dateTemp2+"分钟前";
+
+            }else if(dateTemp1>0){
+                msg = "刚刚";
+
+            }
+        }
+        return msg;
+
     }
 
 }

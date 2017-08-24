@@ -1,4 +1,4 @@
-package com.coincow.coinstart.myservice;
+package com.coincow.coinstart.service;
 
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;

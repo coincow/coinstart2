@@ -3,8 +3,8 @@ package com.coincow.coinstart;
 import android.app.Application;
 import android.content.Context;
 
-import com.coincow.coinstart.myservice.AlarmService;
-import com.coincow.coinstart.myservice.PersistService;
+import com.coincow.coinstart.service.AlarmService;
+import com.coincow.coinstart.service.PersistService;
 
 
 /**
