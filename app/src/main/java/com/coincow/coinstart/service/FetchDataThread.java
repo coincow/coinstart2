@@ -44,7 +44,7 @@ public class FetchDataThread {
         public void run() {
 
             for(;;){
-                //doWork();
+                doWork();
                 try {
                     Thread.sleep(5000);
                 }catch (Exception e) {
