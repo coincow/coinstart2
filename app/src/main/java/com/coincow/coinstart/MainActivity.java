@@ -18,6 +18,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.coincow.coinstart.service.SpeakTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Coin> mCoinDatas;
 
     private PriceMonitor mPriceMonitor = new PriceMonitor();
+    private OkHttpClient okHttpClient = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,9 +166,14 @@ public class MainActivity extends AppCompatActivity {
                 if(mPriceMonitor.countCoinInfo(id, coin))
                 {
                     //notify
-                    String text = coin.name;
-                    text += getResources().getString(R.string.price_raise);
-                    sendNotifation(123, coin.name, text);
+                    if (false){
+                        String text = coin.name;
+                        text += getResources().getString(R.string.price_raise);
+                        sendNotifation(123, coin.name, text);
+                    }else {
+                        //speak
+                        SpeakTask.speak(coin.name +" " + coin.last);
+                    }
                 }
             }
 
@@ -180,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     {
         String url = "https://yunbi.com//api/v2/tickers.json";
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -195,11 +203,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call call,  Response response) throws IOException {
                 if (null != response.cacheResponse()) {
                     String str = response.cacheResponse().toString();
-                    Log.i(LOGTAG, "cache---" + str);
+                    //Log.i(LOGTAG, "cache---" + str);
                 } else {
 
                     final String str = response.body().string();//response.networkResponse().toString();
-                    Log.i(LOGTAG, "network---" + str);
+                    //Log.i(LOGTAG, "network---" + str);
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -221,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
 
         String sigUrl = YunbiApiHelper.getSignatureUrl(url, shortApi, param);
 
-        OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(sigUrl)
                 .build();
@@ -239,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     final String str = response.body().string();//response.networkResponse().toString();
-                    Log.i(LOGTAG, "trades---" + str);
+                    //Log.i(LOGTAG, "trades---" + str);
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
