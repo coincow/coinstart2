@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String LOGTAG = "log";
     private final static String CoinIdsKey = "CoinIds1";
-    private final static String InterestCoinIds = "gxscny,btccny,bcccny,ethcny,eoscny,omgcny,anscny";
+    private final static String InterestCoinIds = "qtumcny,gxscny,btccny,bcccny,ethcny,eoscny,omgcny,anscny";
     private static HashSet<String> mCoinIdsSet = new HashSet<>();
 
     private RecyclerView mRecyclerView;
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 if(mPriceMonitor.countCoinInfo(id, coin))
                 {
                     //notify
-                    String text = coin.name;
+                   String text = coin.name;
                     text += getResources().getString(R.string.price_raise);
                     sendNotifation(123, coin.name, text);
 
