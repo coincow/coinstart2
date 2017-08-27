@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.coincow.coinstart.service.AlarmService;
 import com.coincow.coinstart.service.PersistService;
+import com.tencent.bugly.crashreport.CrashReport;
 
 
 /**
@@ -20,6 +21,8 @@ public class MyApplication extends Application {
         mContext = this;
         super.onCreate();
         initApp();
+
+        CrashReport.initCrashReport(getApplicationContext(), "b256ceacc6", false);
     }
 
     private void initApp(){

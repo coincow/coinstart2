@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -166,14 +168,12 @@ public class MainActivity extends AppCompatActivity {
                 if(mPriceMonitor.countCoinInfo(id, coin))
                 {
                     //notify
-                    if (false){
-                        String text = coin.name;
-                        text += getResources().getString(R.string.price_raise);
-                        sendNotifation(123, coin.name, text);
-                    }else {
-                        //speak
-                        SpeakTask.speak(coin.name +" " + coin.last);
-                    }
+                    String text = coin.name;
+                    text += getResources().getString(R.string.price_raise);
+                    sendNotifation(123, coin.name, text);
+
+                    //speak
+                    SpeakTask.speak(coin.name);
                 }
             }
 
@@ -286,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
         nBuilder.setVibrate(new long[]{100, 100, 100});
         nBuilder.setLights(Color.RED, 1000, 1000);
         nBuilder.setDefaults(Notification.DEFAULT_SOUND);
+
 
         NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notifyMgr.notify(id, nBuilder.build());

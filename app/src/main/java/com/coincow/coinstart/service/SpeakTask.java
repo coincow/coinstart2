@@ -57,6 +57,7 @@ public class SpeakTask extends HandlerThread{
                     @Override
                     public void onInit(int status) {
                         textToSpeech.setLanguage(Locale.ENGLISH);
+                        textToSpeech.setSpeechRate(0.7f);
                     }
                 });
             }else{
