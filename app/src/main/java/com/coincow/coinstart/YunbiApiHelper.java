@@ -6,8 +6,8 @@ package com.coincow.coinstart;
 
 public class YunbiApiHelper {
 
-    private final static String AccessKey = "D7ZvEZAheGDVX0YAY2gcWRNeL6oWOD9ZAqPxXovn";
-    private final static String PrivateKey = "XRhTV8xzmN1J01ETEJwQtxOZabxxv5nqjobIJYsC";
+    private final static String AccessKey = "";
+    private final static String PrivateKey = "";
 
     public static String getSignatureUrl(String baseUrl, String shortApi, String param)
     {
